@@ -3,36 +3,24 @@
     "target": "http://localhost:8081",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug",
-    "pathRewrite": {
-      "^/api/user": ""
-    }
+    "logLevel": "debug"
   },
   "/api/train": {
     "target": "http://localhost:8082",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug",
-    "pathRewrite": {
-      "^/api/train": ""
-    }
+    "logLevel": "debug"
   },
   "/api/booking": {
     "target": "http://localhost:8083",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug",
-    "pathRewrite": {
-      "^/api/booking": ""
-    }
+    "logLevel": "debug"
   },
   "/api/food": {
     "target": "http://localhost:8084",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug",
-    "pathRewrite": {
-      "^/api/food": ""
-    }
+    "logLevel": "debug"
   }
 }
