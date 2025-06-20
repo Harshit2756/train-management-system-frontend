@@ -1,22 +1,35 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ApiResponse, Train } from '../../models/train.model';
 import { LoginResponse } from '../../models/user.model';
+import { AuthService } from '../../services/auth.service';
+import { TrainService } from '../../services/train.service';
 
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './user-dashboard.component.html',
-  styleUrl: './user-dashboard.component.css'
+  styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
+  trains: Train[] = [];
+  searchTrainNumber: string = '';
+  searchTrainName: string = '';
+  searchTrainType: string = '';
   currentUser: LoginResponse | null = null;
-  activeTab = 'overview';
+  activeTab = 'trains';
   sessionInfo: { user: LoginResponse | null; isValid: boolean; remainingTime: number } | null = null;
+  isLoading: boolean = false;
+  errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private trainService: TrainService,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
@@ -33,6 +46,8 @@ export class UserDashboardComponent implements OnInit {
       this.router.navigate(['/admin/dashboard']);
       return;
     }
+
+    this.loadAllTrains();
   }
 
   logout(): void {
@@ -65,5 +80,70 @@ export class UserDashboardComponent implements OnInit {
   refreshSession(): void {
     this.authService.refreshSession();
     this.sessionInfo = this.authService.getSessionInfo();
+  }
+
+  loadAllTrains(): void {
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.trainService.getAllTrains().subscribe({
+      next: (response: ApiResponse) => {
+        this.isLoading = false;
+        if (response.success) {
+          this.trains = response.data;
+        } else {
+          this.errorMessage = response.message;
+          this.trains = [];
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = 'An error occurred while fetching trains.';
+        this.trains = [];
+        console.error(err);
+      }
+    });
+  }
+
+  search(): void {
+    const params: any = {};
+    if (this.searchTrainNumber) {
+      params.trainNumber = this.searchTrainNumber;
+    }
+    if (this.searchTrainName) {
+      params.trainName = this.searchTrainName;
+    }
+    if (this.searchTrainType) {
+      params.trainType = this.searchTrainType;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.trainService.searchTrains(params).subscribe({
+      next: (response: ApiResponse) => {
+        this.isLoading = false;
+        if (response.success) {
+          this.trains = response.data;
+          if (this.trains.length === 0) {
+            this.errorMessage = 'No trains found matching your criteria.';
+          }
+        } else {
+          this.errorMessage = response.message;
+          this.trains = [];
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = 'An error occurred while searching for trains.';
+        this.trains = [];
+        console.error(err);
+      }
+    });
+  }
+
+  resetSearch(): void {
+    this.searchTrainNumber = '';
+    this.searchTrainName = '';
+    this.searchTrainType = '';
+    this.loadAllTrains();
   }
 } 

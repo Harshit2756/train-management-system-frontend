@@ -14,7 +14,6 @@
       </div>
       <div class="user-details">
         <h6 class="user-name">{{ currentUser?.name }}</h6>
-        <small class="user-email">{{ currentUser?.email }}</small>
       </div>
     </div>
 
@@ -26,9 +25,9 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [class.active]="activeTab === 'search'" (click)="setActiveTab('search')">
+        <a class="nav-link" [class.active]="activeTab === 'trains'" (click)="setActiveTab('trains')">
           <i class="bi bi-search"></i>
-          <span>Search Trains</span>
+          <span>Trains</span>
         </a>
       </li>
       <li class="nav-item">
@@ -81,12 +80,8 @@
           <small class="text-muted">Welcome to your dashboard</small>
         </div>
         <div class="d-flex align-items-center gap-3">
-          <div class="notification-bell">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-danger">3</span>
-          </div>
-          <div class="user-menu">
-            <img src="https://via.placeholder.com/40" alt="User" class="rounded-circle">
+          <div class="user-menu" (click)="setActiveTab('profile')">
+            <img src="assets/user-avatar.svg" alt="User" class="rounded-circle" style="cursor: pointer;">
           </div>
         </div>
       </div>
@@ -182,7 +177,7 @@
             <div class="dashboard-card">
               <h5 class="card-title">Quick Actions</h5>
               <div class="d-grid gap-2">
-                <button class="btn btn-primary" (click)="setActiveTab('search')">
+                <button class="btn btn-primary" (click)="setActiveTab('trains')">
                   <i class="bi bi-search me-2"></i>Search Trains
                 </button>
                 <button class="btn btn-outline-primary" (click)="setActiveTab('passengers')">
@@ -197,11 +192,60 @@
         </div>
       </div>
 
-      <!-- Search Trains Tab -->
-      <div *ngIf="activeTab === 'search'" class="tab-content">
-        <div class="dashboard-card">
-          <h5 class="card-title">Search Trains</h5>
-          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+      <!-- Trains Tab -->
+      <div *ngIf="activeTab === 'trains'" class="tab-content">
+        <div class="dashboard-card" style="flex-direction: column; align-items: stretch;">
+          <h5 class="card-title">Train Information</h5>
+          <div class="search-container">
+            <input type="text" placeholder="Train Number" [(ngModel)]="searchTrainNumber" [disabled]="isLoading">
+            <input type="text" placeholder="Train Name" [(ngModel)]="searchTrainName" [disabled]="isLoading">
+            <input type="text" placeholder="Train Type" [(ngModel)]="searchTrainType" [disabled]="isLoading">
+            <button (click)="search()" [disabled]="isLoading">Search</button>
+            <button (click)="resetSearch()" [disabled]="isLoading">Reset</button>
+          </div>
+
+          <div *ngIf="isLoading" class="text-center my-3">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div *ngIf="errorMessage && !isLoading" class="alert alert-danger mt-3">
+            {{ errorMessage }}
+          </div>
+
+          <div *ngIf="!isLoading && trains.length > 0" class="table-responsive">
+            <table class="table table-striped mt-3">
+              <thead>
+                <tr>
+                  <th>Train Number</th>
+                  <th>Train Name</th>
+                  <th>Train Type</th>
+                  <th>Total Seats</th>
+                  <th>AC Seats</th>
+                  <th>Sleeper Seats</th>
+                  <th>General Seats</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let train of trains">
+                  <td>{{ train.trainNumber }}</td>
+                  <td>{{ train.trainName }}</td>
+                  <td>{{ train.trainType }}</td>
+                  <td>{{ train.totalSeats }}</td>
+                  <td>{{ train.acSeats }}</td>
+                  <td>{{ train.sleeperSeats }}</td>
+                  <td>{{ train.generalSeats }}</td>
+                  <td>{{ train.status }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="!isLoading && !errorMessage && trains.length === 0" class="text-center text-muted mt-3">
+            <p>No trains available. Please search for a train.</p>
+          </div>
         </div>
       </div>
 
@@ -246,4 +290,4 @@
       </div>
     </div>
   </main>
-</div> 
+</div>

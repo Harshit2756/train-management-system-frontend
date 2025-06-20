@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
-import { User, LoginRequest, LoginResponse, ApiResponse } from '../models/user.model';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { ApiResponse, LoginRequest, LoginResponse, User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   // Use relative URL when using proxy, or absolute URL for direct backend calls
-  private readonly API_BASE_URL = '/api'; // This will be proxied to http://localhost:8081/api
+  private readonly API_BASE_URL = '/api/user'; // This will be proxied to http://localhost:8081
   private currentUserSubject = new BehaviorSubject<LoginResponse | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -161,6 +161,11 @@ export class AuthService {
 
   activateAccount(userId: number): Observable<ApiResponse<any>> {
     return this.http.put<ApiResponse<any>>(`${this.API_BASE_URL}/activate/${userId}`, {}, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  getProfile(): Observable<ApiResponse<any>> {
+    return this.http.get<ApiResponse<any>>(`${this.API_BASE_URL}/profile`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
