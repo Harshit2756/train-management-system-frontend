@@ -1,0 +1,249 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <i class="bi bi-train-front text-primary"></i>
+        <span class="brand-text">TrainMS</span>
+      </div>
+    </div>
+
+    <div class="user-info">
+      <div class="user-avatar">
+        <i class="bi bi-person-circle"></i>
+      </div>
+      <div class="user-details">
+        <h6 class="user-name">{{ currentUser?.name }}</h6>
+        <small class="user-email">{{ currentUser?.email }}</small>
+      </div>
+    </div>
+
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'overview'" (click)="setActiveTab('overview')">
+          <i class="bi bi-house-door"></i>
+          <span>Overview</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'search'" (click)="setActiveTab('search')">
+          <i class="bi bi-search"></i>
+          <span>Search Trains</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'bookings'" (click)="setActiveTab('bookings')">
+          <i class="bi bi-ticket-perforated"></i>
+          <span>My Bookings</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'passengers'" (click)="setActiveTab('passengers')">
+          <i class="bi bi-people"></i>
+          <span>Passengers</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'profile'" (click)="setActiveTab('profile')">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'support'" (click)="setActiveTab('support')">
+          <i class="bi bi-headset"></i>
+          <span>Support</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <!-- <div class="session-info mb-2 p-2 bg-light rounded">
+        <small class="text-muted d-block">Session: {{ getSessionTimeRemaining() }}</small>
+        <button class="btn btn-sm btn-outline-primary mt-1" (click)="refreshSession()">
+          <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+      </div> -->
+      <button class="btn btn-outline-danger w-100" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Navigation -->
+    <header class="top-nav">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h4 class="mb-0">{{ getGreeting() }}, {{ currentUser?.name }}!</h4>
+          <small class="text-muted">Welcome to your dashboard</small>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="notification-bell">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-danger">3</span>
+          </div>
+          <div class="user-menu">
+            <img src="https://via.placeholder.com/40" alt="User" class="rounded-circle">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <!-- Overview Tab -->
+      <div *ngIf="activeTab === 'overview'" class="tab-content">
+        <div class="row g-4">
+          <div class="col-md-3">
+            <div class="dashboard-card">
+              <div class="card-icon bg-primary">
+                <i class="bi bi-ticket-perforated"></i>
+              </div>
+              <div class="card-content">
+                <h3>5</h3>
+                <p>Active Bookings</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="dashboard-card">
+              <div class="card-icon bg-success">
+                <i class="bi bi-check-circle"></i>
+              </div>
+              <div class="card-content">
+                <h3>12</h3>
+                <p>Completed Journeys</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="dashboard-card">
+              <div class="card-icon bg-warning">
+                <i class="bi bi-clock"></i>
+              </div>
+              <div class="card-content">
+                <h3>2</h3>
+                <p>Upcoming Trips</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="dashboard-card">
+              <div class="card-icon bg-info">
+                <i class="bi bi-people"></i>
+              </div>
+              <div class="card-content">
+                <h3>4</h3>
+                <p>Saved Passengers</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-md-8">
+            <div class="dashboard-card">
+              <h5 class="card-title">Recent Bookings</h5>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Train</th>
+                      <th>From</th>
+                      <th>To</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Rajdhani Express</td>
+                      <td>Delhi</td>
+                      <td>Mumbai</td>
+                      <td>15 Dec 2024</td>
+                      <td><span class="badge bg-success">Confirmed</span></td>
+                    </tr>
+                    <tr>
+                      <td>Shatabdi Express</td>
+                      <td>Bangalore</td>
+                      <td>Chennai</td>
+                      <td>20 Dec 2024</td>
+                      <td><span class="badge bg-warning">Pending</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="dashboard-card">
+              <h5 class="card-title">Quick Actions</h5>
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary" (click)="setActiveTab('search')">
+                  <i class="bi bi-search me-2"></i>Search Trains
+                </button>
+                <button class="btn btn-outline-primary" (click)="setActiveTab('passengers')">
+                  <i class="bi bi-person-plus me-2"></i>Add Passenger
+                </button>
+                <button class="btn btn-outline-primary" (click)="setActiveTab('bookings')">
+                  <i class="bi bi-ticket-perforated me-2"></i>View Bookings
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Trains Tab -->
+      <div *ngIf="activeTab === 'search'" class="tab-content">
+        <div class="dashboard-card">
+          <h5 class="card-title">Search Trains</h5>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+
+      <!-- My Bookings Tab -->
+      <div *ngIf="activeTab === 'bookings'" class="tab-content">
+        <div class="dashboard-card">
+          <h5 class="card-title">My Bookings</h5>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+
+      <!-- Passengers Tab -->
+      <div *ngIf="activeTab === 'passengers'" class="tab-content">
+        <div class="dashboard-card">
+          <h5 class="card-title">Passenger Management</h5>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+
+      <!-- Profile Tab -->
+      <div *ngIf="activeTab === 'profile'" class="tab-content">
+        <div class="dashboard-card">
+          <h5 class="card-title">Profile Information</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Name:</strong> {{ currentUser?.name }}</p>
+              <p><strong>Email:</strong> {{ currentUser?.email }}</p>
+              <p><strong>Contact:</strong> {{ currentUser?.contactNumber }}</p>
+              <p><strong>Address:</strong> {{ currentUser?.address }}</p>
+              <p><strong>Status:</strong> <span class="badge bg-success">{{ currentUser?.status }}</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Tab -->
+      <div *ngIf="activeTab === 'support'" class="tab-content">
+        <div class="dashboard-card">
+          <h5 class="card-title">Customer Support</h5>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div> 

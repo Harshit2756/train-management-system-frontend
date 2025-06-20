@@ -1,0 +1,105 @@
+.register-container {
+  background-color: #f8f9fa;
+  padding: 4rem 0;
+}
+
+.register-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.register-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-body {
+  padding: 3rem !important;
+}
+
+.display-4 {
+  font-size: 3rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+}
+
+.input-group-text {
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-right: none;
+  color: #6c757d;
+}
+
+.form-control {
+  height: calc(1.5em + 1rem + 2px);
+  padding: 0.5rem 1rem;
+  border-left: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #86b7fe;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  padding: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-primary:disabled {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.invalid-feedback {
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+}
+
+.spinner-border-sm {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-width: 0.2em;
+}
+
+.password-strength {
+  margin-top: 0.5rem;
+}
+
+.strength-weak {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.strength-medium {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.strength-strong {
+  color: #198754;
+  font-weight: bold;
+}
+
+.bi-eye, .bi-eye-slash {
+  cursor: pointer;
+} 

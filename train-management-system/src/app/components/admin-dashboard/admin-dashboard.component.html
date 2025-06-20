@@ -1,0 +1,272 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <i class="bi bi-train-front text-primary"></i>
+        <span class="brand-text">TrainMS Admin</span>
+      </div>
+    </div>
+
+    <div class="user-info">
+      <div class="user-avatar">
+        <i class="bi bi-person-circle"></i>
+      </div>
+      <div class="user-details">
+        <h6 class="user-name">{{ currentUser?.name }}</h6>
+        <small class="user-email">{{ currentUser?.email }}</small>
+        <span class="badge bg-primary">Administrator</span>
+      </div>
+    </div>
+
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'overview'" (click)="setActiveTab('overview')">
+          <i class="bi bi-house-door"></i>
+          <span>Overview</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'trains'" (click)="setActiveTab('trains')">
+          <i class="bi bi-train-front"></i>
+          <span>Manage Trains</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'schedules'" (click)="setActiveTab('schedules')">
+          <i class="bi bi-calendar3"></i>
+          <span>Train Schedules</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'users'" (click)="setActiveTab('users')">
+          <i class="bi bi-people"></i>
+          <span>User Management</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'bookings'" (click)="setActiveTab('bookings')">
+          <i class="bi bi-ticket-perforated"></i>
+          <span>All Bookings</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'reports'" (click)="setActiveTab('reports')">
+          <i class="bi bi-graph-up"></i>
+          <span>Reports</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'settings'" (click)="setActiveTab('settings')">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <!-- <div class="session-info mb-2 p-2 bg-light rounded">
+        <small class="text-muted d-block">Session: {{ getSessionTimeRemaining() }}</small>
+        <button class="btn btn-sm btn-outline-primary mt-1" (click)="refreshSession()">
+          <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+      </div> -->
+      <button class="btn btn-outline-danger w-100" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Navigation -->
+    <header class="top-nav">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h4 class="mb-0">{{ getGreeting() }}, {{ currentUser?.name }}!</h4>
+          <small class="text-muted">Administrator Dashboard</small>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="notification-bell">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-danger">5</span>
+          </div>
+          <div class="user-menu">
+            <img src="https://via.placeholder.com/40" alt="Admin" class="rounded-circle">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <!-- Overview Tab -->
+      <div *ngIf="activeTab === 'overview'" class="tab-content">
+        <div class="row g-4">
+          <div class="col-md-3">
+            <div class="dashboard-card">
+              <div class="card-icon bg-primary">
+                <i class="bi bi-train-front"></i>
+              </div>
+              <div class="card-content">
+                <h3>25</h3>
+                <p>Active Trains</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="dashboard-card">
+              <div class="card-icon bg-success">
+                <i class="bi bi-people"></i>
+              </div>
+              <div class="card-content">
+                <h3>1,250</h3>
+                <p>Total Users</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="dashboard-card">
+              <div class="card-icon bg-warning">
+                <i class="bi bi-ticket-perforated"></i>
+              </div>
+              <div class="card-content">
+                <h3>450</h3>
+                <p>Today's Bookings</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="dashboard-card">
+              <div class="card-icon bg-info">
+                <i class="bi bi-currency-dollar"></i>
+              </div>
+              <div class="card-content">
+                <h3>₹2.5M</h3>
+                <p>Monthly Revenue</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-md-8">
+            <div class="dashboard-card">
+              <h5 class="card-title">Recent System Activities</h5>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Activity</th>
+                      <th>User</th>
+                      <th>Time</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>New train added</td>
+                      <td>Admin User</td>
+                      <td>2 hours ago</td>
+                      <td><span class="badge bg-success">Completed</span></td>
+                    </tr>
+                    <tr>
+                      <td>Schedule updated</td>
+                      <td>Admin User</td>
+                      <td>4 hours ago</td>
+                      <td><span class="badge bg-success">Completed</span></td>
+                    </tr>
+                    <tr>
+                      <td>User registration</td>
+                      <td>john.doe&#64;example.com</td>
+                      <td>6 hours ago</td>
+                      <td><span class="badge bg-info">New</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="dashboard-card">
+              <h5 class="card-title">Quick Actions</h5>
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary" (click)="setActiveTab('trains')">
+                  <i class="bi bi-plus-circle me-2"></i>Add New Train
+                </button>
+                <button class="btn btn-outline-primary" (click)="setActiveTab('schedules')">
+                  <i class="bi bi-calendar-plus me-2"></i>Update Schedule
+                </button>
+                <button class="btn btn-outline-primary" (click)="setActiveTab('users')">
+                  <i class="bi bi-person-check me-2"></i>Manage Users
+                </button>
+                <button class="btn btn-outline-primary" (click)="setActiveTab('reports')">
+                  <i class="bi bi-file-earmark-text me-2"></i>Generate Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manage Trains Tab -->
+      <div *ngIf="activeTab === 'trains'" class="tab-content">
+        <div class="dashboard-card">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title mb-0">Train Management</h5>
+            <button class="btn btn-primary">
+              <i class="bi bi-plus-circle me-2"></i>Add New Train
+            </button>
+          </div>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+
+      <!-- Train Schedules Tab -->
+      <div *ngIf="activeTab === 'schedules'" class="tab-content">
+        <div class="dashboard-card">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title mb-0">Schedule Management</h5>
+            <button class="btn btn-primary">
+              <i class="bi bi-upload me-2"></i>Bulk Upload
+            </button>
+          </div>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+
+      <!-- User Management Tab -->
+      <div *ngIf="activeTab === 'users'" class="tab-content">
+        <div class="dashboard-card">
+          <h5 class="card-title">User Management</h5>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+
+      <!-- All Bookings Tab -->
+      <div *ngIf="activeTab === 'bookings'" class="tab-content">
+        <div class="dashboard-card">
+          <h5 class="card-title">All Bookings</h5>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+
+      <!-- Reports Tab -->
+      <div *ngIf="activeTab === 'reports'" class="tab-content">
+        <div class="dashboard-card">
+          <h5 class="card-title">Reports & Analytics</h5>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div *ngIf="activeTab === 'settings'" class="tab-content">
+        <div class="dashboard-card">
+          <h5 class="card-title">System Settings</h5>
+          <p class="text-muted">This feature will be implemented in the next iteration.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div> 

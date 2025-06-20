@@ -1,0 +1,180 @@
+<div class="register-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card register-card">
+          <div class="card-body p-5">
+            <div class="text-center mb-4">
+              <i class="bi bi-person-badge display-4 text-primary mb-3"></i>
+              <h2 class="fw-bold">Admin Registration</h2>
+              <p class="text-muted">Create a new administrator account</p>
+            </div>
+
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="name" class="form-label fw-semibold">Full Name</label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-person"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      formControlName="name"
+                      placeholder="Enter full name"
+                      [class.is-invalid]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
+                    >
+                  </div>
+                  <div class="invalid-feedback d-block" *ngIf="getErrorMessage('name')">
+                    {{ getErrorMessage('name') }}
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="email" class="form-label fw-semibold">Email Address</label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-envelope"></i>
+                    </span>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      formControlName="email"
+                      placeholder="Enter email"
+                      [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                    >
+                  </div>
+                  <div class="invalid-feedback d-block" *ngIf="getErrorMessage('email')">
+                    {{ getErrorMessage('email') }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="contactNumber" class="form-label fw-semibold">Contact Number</label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-telephone"></i>
+                    </span>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="contactNumber"
+                      formControlName="contactNumber"
+                      placeholder="Enter 10-digit number"
+                      maxlength="10"
+                      [class.is-invalid]="registerForm.get('contactNumber')?.invalid && registerForm.get('contactNumber')?.touched"
+                    >
+                  </div>
+                  <div class="invalid-feedback d-block" *ngIf="getErrorMessage('contactNumber')">
+                    {{ getErrorMessage('contactNumber') }}
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="address" class="form-label fw-semibold">Address</label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-geo-alt"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      formControlName="address"
+                      placeholder="Enter address"
+                      [class.is-invalid]="registerForm.get('address')?.invalid && registerForm.get('address')?.touched"
+                    >
+                  </div>
+                  <div class="invalid-feedback d-block" *ngIf="getErrorMessage('address')">
+                    {{ getErrorMessage('address') }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="password" class="form-label fw-semibold">Password</label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-lock"></i>
+                    </span>
+                    <input
+                      [type]="showPassword ? 'text' : 'password'"
+                      class="form-control"
+                      id="password"
+                      formControlName="password"
+                      placeholder="Enter password"
+                      [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                    >
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="togglePasswordVisibility('password')"
+                    >
+                      <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+                    </button>
+                  </div>
+                  <div class="invalid-feedback d-block" *ngIf="getErrorMessage('password')">
+                    {{ getErrorMessage('password') }}
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-lock-fill"></i>
+                    </span>
+                    <input
+                      [type]="showConfirmPassword ? 'text' : 'password'"
+                      class="form-control"
+                      id="confirmPassword"
+                      formControlName="confirmPassword"
+                      placeholder="Confirm password"
+                      [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
+                    >
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="togglePasswordVisibility('confirmPassword')"
+                    >
+                      <i class="bi" [class.bi-eye]="!showConfirmPassword" [class.bi-eye-slash]="showConfirmPassword"></i>
+                    </button>
+                  </div>
+                  <div class="invalid-feedback d-block" *ngIf="getErrorMessage('confirmPassword')">
+                    {{ getErrorMessage('confirmPassword') }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="alert alert-danger" *ngIf="errorMessage">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                {{ errorMessage }}
+              </div>
+
+              <div class="alert alert-success" *ngIf="successMessage">
+                <i class="bi bi-check-circle me-2"></i>
+                {{ successMessage }}
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary w-100 mb-3"
+                [disabled]="isLoading || registerForm.invalid"
+              >
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isLoading ? 'Registering Admin...' : 'Register Admin' }}
+              </button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

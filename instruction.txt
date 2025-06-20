@@ -1,0 +1,185 @@
+User Registration:
+Users can easily create accounts on the platform by filling in basic information like their name, email, and creating a secure password.
+An email verification process is in place to confirm the authenticity of user accounts, enhancing security.
+As a new customer, I want to be able to register an account with Train Ticketing System by providing my details such as Name, Email, Contact Number, Address and etc. using a REST API endpoint.
+Acceptance Criteria:
+- The Registration Form should meet the system requirements as per the reference from US_Web_003(Java) or US001 (Python) .
+- The API should have a POST endpoint at '/api/register' that accepts JSON data with customer's details.
+- Email should be validated for correct format, throw an email format exception if the email is not in the correct format.
+- Upon successful registration, the customer's information should be stored in the "customer" table in the database and corresponding entry with a unique email, userType(Customer), password and status (Default - Active / Inactive) should be created in the "login" table.
+- If the provided email is already registered, the API should return 409 conflict status and appropriate error message.
+- If successful, the API should return 201 Created Status and a success message.
+- If there is any issue with database connection during registration process, the API should respond with a 500 Internal Server Error status and an error message indicating that there was a server-side issue.
+- Handle any database related exception that may occur during the registration process.
+
+Admin Registration:
+Administrators have a dedicated registration process, including additional details like role designation and administrative privileges.
+Approval from a super-administrator is required for added security measures, ensuring only authorized individuals gain administrative access.
+Programmers should register an Admin account programmatically from the backend code and REST API, granting the account "active" status as per the reference from US_Web_003(Java) or US001 (Python) .
+Acceptance Criteria:
+- The application should expose a POST API endpint at 'api/admin/register' for Admin Registration.
+- The API should expect a JSON payload containing the following fields: 'Email' and 'Password'.
+- If the email format is invalid, the API should respond with a 400 Bad Request status and an error message that the email format is incorrect.
+- Upon successful registration, the API should create a new entry in the "login" table with provided 'email', 'password', 'userType' set to 'Admin' and 'status' set to 'Active'.
+The backend program should be able to add an administrator to the system by creating an entry in the "login" table with email(unique - not match with any customer's email), password, userType(Admin) and status (Active)
+- This administrator account should have exclusive access to perform all Train-Timetable/Schedule related operations.
+- If the admin registration is successful, the API should respond with a 201 Created status and a success message.
+- If there is any issue with database connection during registration process, the API should respond with a 500 Internal Server Error status and an error message indicating that there was a server-side issue.
+ - Handle email format exception and any database related exception that may occur during the administrator registration process.
+
+ User Authentication:
+Administrators have a dedicated registration process, including additional details like role designation and administrative privileges.
+Approval from a super-administrator is required for added security measures, ensuring only authorized individuals gain administrative access.
+Programmer should register an Admin account programmatically from the backend code and REST API, granting the account "active" status as per the reference from US_Web_003(Java) or US001 (Python) .
+Acceptance Criteria:
+- The application should expose a POST API endpoint at 'api/admin/register' for Admin Registration.
+- The API should expect a JSON payload containing the following fields: 'Email' and 'Password'.
+- If the email format is invalid, the API should respond with a 400 Bad Request status and an error message that the email format is incorrect.
+- Upon successful registration, the API should create a new entry in the "login" table with provided 'email', 'password', 'userType' set to 'Admin' and 'status' set to 'Active'.
+The backend program should be able to add an administrator to the system by creating an entry in the "login" table with email(unique - not match with any customer's email), password, userType(Admin) and status (Active)
+- This administrator account should have exclusive access to perform all Train-Timetable/Schedule related operations.
+- If the admin registration is successful, the API should respond with a 201 Created status and a success message.
+- If there is any issue with database connection during registration process, the API should respond with a 500 Internal Server Error status and an error message indicating that there was a server-side issue.
+- Handle email format exception and any database related exception that may occur during the administrator registration process.
+
+User  Dashboards:
+Personalized dashboards provide users with insights into their booking history, upcoming trips, and profile details.
+If the user status is "Active" and user is authenticated with proper API response, the user should be redirected to dashboard with user functionalities.Please refer to the image US004_Sprint4(placed in the Screenshot tab)
+Acceptance Criteria
+- The user should be able to interact with different
+services as a part of the dashboard.
+- The application should expose a GET API endpoint at 'api/trains', 'api/profile', 'api/profile', 'api/history', 'api/journey'for customers to view the trains schedules, user profile, booking history, upcoming journey, etc.
+- When customer access the 'api/trains' endpoint, thd API should retrieve a list of available trains and routes from the database.
+- The API response should be in JSON format, containing an array of train objects.
+- The API should return 200 OK status code upon successful retrieval of the train and route as per schedule as well as other requested data.
+- If there are issues fetching the product data, the API should respond with a 500 Internal Server Error status and and error message."
+- the API should respond with a 400 Bad Request status and an error message indicating that missing or invalid request.
+
+Admin Dashboards:
+Admins access dashboards with system-wide statistics, user management capabilities, and monitoring tools for overall system health.
+As an Admin user, I want to able to add new or update existing timetable/train details to the schedule either individually or by bulk uploading a CSV file containing related information.Please refer to the image US005_Sprint4(placed in the Screenshot tab)
+Acceptance Criteria:
+- The application should expose a POST API endpoint at '/api/admin/active_trains/upload' for multiple schedule change via Bulk Upload.
+- The API should validate the uploaded content to ensure it contains the required columns and valid data.
+- After completing the Bulk Upload, the API should respond with a 201 Created status and success message indicating the number of products successfully registered. Also it should return 204 resource updated successfully indicating successful chnage in schedule.
+- If there are any errors during the bulk upload arsing or schedule update, the API should respond with a 500 Internal Server Error and an error message.
+- If any mandatory columns/data are missing, the API should respond with 400 Bad Request and an error message.
+
+
+Passenger Information:
+The system securely stores and manages detailed passenger information, including contact details, preferences, and booking history.
+Passengers can easily update their information through the user profile management section.
+As a user, I want to enter passenger details and store the same for future use. Also I should be able to edit or delete the same as required.
+
+
+Acceptance Criteria
+- User should have the option to manage passenger details with appropriate inputs from the input  fields.Please refer to the image US006_Sprint4(placed in the Screenshot tab)
+- User should be able to seamlessy populate passenger details by using same data during seat reservation(US009).
+- The API should have POST endpoint 'api/passenger_details' for storing passenger details.
+- The API should respond with 200 OK and 201 Created status with appropriate success messages when the passenger details get stored.
+- If any errors are encountered during the process, 500 status with appropriate error message should be returned.
+
+Ticket Booking System:
+Passengers can conveniently book tickets online through an intuitive interface.
+The booking system allows users to specify the source, destination, date, and class of travel, with real-time seat availability updates.
+As a user, I want to book a ticket for my journey for the selected route, schedule and train.Please refer to the image US007_Sprint4(placed in the Screenshot tab)
+- As a user I want to be able to search through all available trains for specified departure and arrival stations.
+- I want to be able to select the journey route of choice and proceed to reserving seats based on availability(US009)
+
+Seat Reservation:
+Passengers have the option to select and reserve seats during the ticket booking process.
+The system ensures efficient seat allocation, preventing overbooking and providing passengers with a choice in their seating arrangements.:
+As a user, after choosing the specified journey route I want to reserve seats
+
+
+Acceptance Criteria
+
+
+- I should be able to redirect to seat reservation with selected journey route from US008.
+- I should be able to see the available seats for the specific dates of travel and select seats.
+- Once finalized, I should be able to fetch and add existing passeneger from US006 or be able to add new passenger and proceed to confirming the booking process.
+- If the booking request is processed successfully, 200 OK status code should be returned with success message.
+- The application should the expose a GET API to fetch final status of booking 'api/booking_status' to supply passenger with journey details regarding the seat reservation.
+- If any error occur during this process, 500 status Internal Server Error should be returned with error message. Also the seat reservation data should be fetched only till the journey is in progress. After that it sould return 400 Bad Request,
+
+Seat Allotment:
+The system includes a comprehensive module for managing and displaying available seats for the selected train route and journey
+Information such as arrival and departure times, station details, and platform information is organized and easily accessible to users.
+As a user i should be able to select seats based on the preferenece.
+Acceptance Criteria
+- if age > 60, application should give priority to allot  the lower berth under Senior Citizen Category.
+ - if seats are available in the required or selected QUOTA, show all matching seats.
+- else, application should display all available seats.
+
+View Ticket:
+The platform integrates a secure payment gateway to facilitate online transactions for ticket purchases.
+Multiple payment options are available to users, providing flexibility and convenience.
+As a user, after successful booking of the ticket, I want to be able to view the details and status of my Tickets.
+
+
+- After completing the booking process, user should be redirected to send in a request to view their ticket with all appropriate information as was entered during the time of booking.Please refer to the image US010_Sprint4(placed in the Screenshot tab)
+- add separate table TICKETS with fields,
+(ID Primary Key, Person ID Foreign Key, Location ID Foreign Key(Location_Table), Start Date Date, End Date Date, Status).
+- The application should expose a GET API 'api/fetch_ticket_details' for viewing the booked ticket.
+- If the data is found and access is successful, the API should return 200 status OK with success message.
+- If any error occurs during the process, the API should return 500 Internal Server Error and error message.
+
+(Food Ordering Module/Pantry):
+A dedicated module is in place to track and schedule train maintenance activities.
+This ensures the reliability and safety of the trains by proactively managing maintenance requirements.
+As a passenger set for journey on the train, I want to retrieve list of available food options and select from  the same to place food order.
+Please refer to the images :US011_1_Sprint4,US011_2_Sprint4,US011_3_Sprint4,US011_4_Sprint4(placed in the Screenshot tab)
+Acceptance Criteria
+- The application should expose a GET API endpoint, 'api/food_cart' for fetching available food options
+- Once the list is populated, passenger should be able to select the food item and book a meal of choice.
+- If the fetching of food items and meal selection was successful, API should return 200 OK status with success message.
+- If any error occurs, the API should return 500 Internal Server Error and Error Message.
+
+Customer Support:
+The system incorporates a customer support module to handle inquiries, complaints, and assistance requests from passengers.
+Users can easily reach out for help, and customer support staff have the tools to efficiently address and resolve issues.
+As a customer I want to be able to restore my account
+Please refer to the image US012_Sprint4(placed in the Screenshot tab)
+Acceptance Criteria:
+
+
+-The application should expose a PUT API endpoint '/api/activate/<user_id>' for activating account.
+-This API will not be expecting any payload from the user, apart from the parameter pass by the user in the URL.
+- If the credentials entered by user is incorrect , the API should respond with 401 Unauthorised status; and an error message.
+-If the ID entered by user is correct, but user is already active the API should respond with 400 status; Bad request and an error message.
+-If the ID entered by user is correct and user is not in active state. You need to update the status for user to be "Active".The API should respond with 200 status and a success message.
+
+Code Integration:
+As a development team working on the train ticketing system application, we want to ensure that all individual code components are integrated
+As a development team working on the train ticketing system application, we want to ensure that all individual code components are integrated using REST API implementedin Flask and work on single DB. This integration will enable us to verify that the different parts of the system work together correctly.
+
+
+Acceptance Criteria:
+- Aim to integrate all individual modules, into fully functional train ticketing system application.
+- All modules should be integrated through REST APIs.
+- Each module should interact with others, passing data effectively between them.
+- During the code integration, we expect data to flow correctly between modules without any errors.
+- The integrated code should preserve all functionalities and features implemented during the development of individual modules. And also maintain data consistency and integrity across the tables and all modules.
+
+Integration Testing:
+As a consumer, I want to use the Train Ticketing System application and interact with services.
+As a consumer, I want to use the train ticketing system application and interact with the providers' services seamlessly.
+
+
+Acceptance Criteria:
+- The Provider component should run and
+maintain the application and provide all the necessary functionalities.
+- The Customer component should interact with the provider's services through the User Interface (UI) and backend calls effectively.
+
+Functional Testing:
+As a developer, I want to perform functional testing
+As a developer, I want to perform functional testing for all user stories to ensure application functionality.
+Acceptance Criteria:
+- Each endpoint should be individually tested.
+- Test the API endpoint with valid inputs and scenarios to verify that they produce expected outcomes.
+- Test each API endpoint with invalid inputs and scenarios to ensure that appropriate error responses are generated.
+- Verify that the API endpints properly validate input data, rejecting invalid requests.
+- Test endpoints that retrieve data, such as train list, past bookings, available seats, to ensure accurate and complete data retrieval.
+- Test endpoints that modify data, such as updating details (Customers / Train), to ensure accurate data modification
+- Verify that authorized actions can only be performed by authenticated users.
+- Test scenarios that could lead to errors, such as attempting to book a ticket on passed date, to book ticket for an already departed train, and verify that appropriate error responses are returned.
