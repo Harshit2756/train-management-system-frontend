@@ -1,0 +1,29 @@
+<div class="profile-container" *ngIf="adminUser$ | async as adminUser">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <span>{{ adminUser.username.charAt(0).toUpperCase() }}</span>
+            </div>
+            <h2>{{ adminUser.username }}'s Profile</h2>
+            <span class="role-identifier">Administrator</span>
+        </div>
+        <div class="profile-details">
+            <div class="detail-item">
+                <label>Admin ID:</label>
+                <span>{{ adminUser.userId }}</span>
+            </div>
+            <div class="detail-item">
+                <label>Email:</label>
+                <span>{{ adminUser.email }}</span>
+            </div>
+            <div class="detail-item">
+                <label>Role:</label>
+                <span class="role-badge">{{ adminUser.role }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #noUser>
+    <p>Loading admin profile...</p>
+</ng-template>

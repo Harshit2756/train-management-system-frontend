@@ -1,0 +1,221 @@
+/* Styles for Train Management Component */
+:host {
+    display: block;
+    background-color: #f9fafb;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.container {
+    padding: 2rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.add-train-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.add-train-btn:hover {
+    background-color: var(--primary-dark-color);
+}
+
+.add-train-btn i {
+    font-size: 1.2rem;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.search-box {
+    position: relative;
+    flex-grow: 1;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 1rem;
+}
+
+.status-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-filter label {
+    font-weight: 500;
+}
+
+.status-filter select {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.train-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.train-table th,
+.train-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.train-table th {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4b5563;
+    text-transform: uppercase;
+    background-color: #f9fafb;
+}
+
+.train-table td {
+    color: #374151;
+}
+
+.status-badge {
+    padding: 0.25em 0.6em;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-inactive {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.action-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.action-btn i {
+    font-size: 1rem;
+}
+
+.edit-btn {
+    background-color: #e0e7ff;
+    color: #4338ca;
+}
+
+.edit-btn:hover {
+    background-color: #c7d2fe;
+}
+
+.status-btn-active {
+    background-color: #fef9c3;
+    color: #854d0e;
+}
+
+.status-btn-active:hover {
+    background-color: #fde68a;
+}
+
+.status-btn-inactive {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-btn-inactive:hover {
+    background-color: #bbf7d0;
+}
+
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.notification {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.notification-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.notification-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}

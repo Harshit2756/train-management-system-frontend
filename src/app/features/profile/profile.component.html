@@ -1,0 +1,36 @@
+<div class="profile-container" *ngIf="user$ | async as user">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <span>{{ user.username.charAt(0).toUpperCase() }}</span>
+            </div>
+            <h2>{{ user.username }}'s Profile</h2>
+        </div>
+        <div class="profile-details">
+            <div class="detail-item">
+                <label>User ID:</label>
+                <span>{{ user.userId }}</span>
+            </div>
+            <div class="detail-item">
+                <label>Email:</label>
+                <span>{{ user.email }}</span>
+            </div>
+            <div class="detail-item">
+                <label>Role:</label>
+                <span class="role-badge">{{ user.role }}</span>
+            </div>
+            <div class="detail-item">
+                <label>Phone:</label>
+                <span>{{ user.phone || 'Not provided' }}</span>
+            </div>
+        </div>
+        <!-- <div class="profile-actions">
+            <button class="btn-edit">Edit Profile</button>
+            <button class="btn-password">Change Password</button>
+        </div> -->
+    </div>
+</div>
+
+<ng-template #noUser>
+    <p>Loading user profile...</p>
+</ng-template>

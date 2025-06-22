@@ -1,0 +1,183 @@
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <!-- Progress Bar -->
+            <div class="d-flex justify-content-between mb-4">
+                <div class="text-center w-100">
+                    <div class="progress" style="height: 2px;">
+                        <div class="progress-bar" role="progressbar"
+                            [style.width.%]="bookingStep === 'details' ? 0 : (bookingStep === 'review' ? 50 : 100)"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mt-2 fw-bold"
+                        [class.text-primary]="bookingStep === 'details' || bookingStep === 'review' || bookingStep === 'confirmation'">
+                        Passenger Details</p>
+                </div>
+                <div class="text-center w-100">
+                    <div class="progress" style="height: 2px;">
+                        <div class="progress-bar" role="progressbar"
+                            [style.width.%]="bookingStep === 'review' ? 50 : (bookingStep === 'confirmation' ? 100 : 0)"
+                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mt-2" [class.fw-bold]="bookingStep === 'review' || bookingStep === 'confirmation'"
+                        [class.text-primary]="bookingStep === 'review' || bookingStep === 'confirmation'">Review</p>
+                </div>
+                <div class="text-center w-100">
+                    <div class="progress" style="height: 2px;">
+                        <div class="progress-bar" role="progressbar"
+                            [style.width.%]="bookingStep === 'confirmation' ? 100 : 0" aria-valuenow="100"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mt-2" [class.fw-bold]="bookingStep === 'confirmation'"
+                        [class.text-primary]="bookingStep === 'confirmation'">Confirmation</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body p-5" [ngSwitch]="bookingStep">
+
+                    <!-- Step 1: Passenger Details -->
+                    <div *ngSwitchCase="'details'">
+                        <h4 class="card-title mb-4">Passenger Details</h4>
+                        <form [formGroup]="bookingForm">
+                            <div formArrayName="passengers">
+                                <div *ngFor="let passenger of passengers.controls; let i=index" [formGroupName]="i"
+                                    class="passenger-form mb-4 border p-3 rounded">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="mb-0">Passenger {{ i + 1 }}</h6>
+                                        <button *ngIf="passengers.length > 1" type="button"
+                                            class="btn btn-danger btn-sm" (click)="removePassenger(i)">Remove</button>
+                                    </div>
+                                    <!-- Form fields for a passenger -->
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label" [for]="'name' + i">Full Name</label>
+                                            <input type="text" [id]="'name' + i" class="form-control"
+                                                formControlName="name"
+                                                [class.is-invalid]="passengers.controls[i].get('name')?.invalid && passengers.controls[i].get('name')?.touched">
+                                            <div *ngIf="passengers.controls[i].get('name')?.invalid && passengers.controls[i].get('name')?.touched"
+                                                class="invalid-feedback">
+                                                <div *ngIf="passengers.controls[i].get('name')?.errors?.['required']">
+                                                    Name is required.</div>
+                                                <div *ngIf="passengers.controls[i].get('name')?.errors?.['minlength']">
+                                                    Name must be at least 2 characters.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label class="form-label" [for]="'age' + i">Age</label>
+                                            <input type="number" [id]="'age' + i" class="form-control"
+                                                formControlName="age"
+                                                [class.is-invalid]="passengers.controls[i].get('age')?.invalid && passengers.controls[i].get('age')?.touched">
+                                            <div *ngIf="passengers.controls[i].get('age')?.invalid && passengers.controls[i].get('age')?.touched"
+                                                class="invalid-feedback">
+                                                <div *ngIf="passengers.controls[i].get('age')?.errors?.['required']">Age
+                                                    is required.</div>
+                                                <div *ngIf="passengers.controls[i].get('age')?.errors?.['min']">Age must
+                                                    be at least 1.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label class="form-label" [for]="'gender' + i">Gender</label>
+                                            <select [id]="'gender' + i" class="form-select" formControlName="gender">
+                                                <option value="MALE">Male</option>
+                                                <option value="FEMALE">Female</option>
+                                                <option value="OTHER">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" [for]="'idProof' + i">Aadhaar Number</label>
+                                        <input type="text" [id]="'idProof' + i" class="form-control"
+                                            formControlName="idProof"
+                                            [class.is-invalid]="passengers.controls[i].get('idProof')?.invalid && passengers.controls[i].get('idProof')?.touched">
+                                        <div *ngIf="passengers.controls[i].get('idProof')?.invalid && passengers.controls[i].get('idProof')?.touched"
+                                            class="invalid-feedback">
+                                            <div *ngIf="passengers.controls[i].get('idProof')?.errors?.['required']">
+                                                Aadhaar number is required.</div>
+                                            <div *ngIf="passengers.controls[i].get('idProof')?.errors?.['pattern']">
+                                                Please enter a valid 12-digit Aadhaar number.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button *ngIf="passengers.length < 10" type="button" class="btn btn-secondary"
+                                (click)="addPassenger()">+ Add Another Passenger</button>
+                        </form>
+                        <div class="d-flex justify-content-end mt-4">
+                            <button class="btn btn-primary" (click)="nextStep()"
+                                [disabled]="bookingForm.invalid">Proceed to Review</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Review Booking -->
+                    <div *ngSwitchCase="'review'">
+                        <h4 class="card-title mb-4">Review Your Booking</h4>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <!-- Train Details -->
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ train.trainName }}</h5>
+                                        <p>{{ train.source }} to {{ train.destination }} on {{ journeyDate | date:
+                                            'fullDate' }}</p>
+                                        <p>Departure: {{ train.departureTime | slice:0:5 }}, Arrival: {{
+                                            train.arrivalTime | slice:0:5 }}</p>
+                                        <p>Class: {{ fare.classType }}</p>
+                                    </div>
+                                </div>
+                                <!-- Passenger Details -->
+                                <h5>Passengers</h5>
+                                <ul class="list-group">
+                                    <li *ngFor="let passenger of passengers.value" class="list-group-item">
+                                        {{ passenger.name }} ({{ passenger.age }}, {{ passenger.gender }})
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <!-- Fare Summary -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Fare Summary</h5>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Base Fare x {{ passengers.length }}</span>
+                                            <span>{{ (fare.price * passengers.length) | currency:'INR' }}</span>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between fw-bold">
+                                            <span>Total</span>
+                                            <span>{{ totalFare | currency:'INR' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <button class="btn btn-secondary" (click)="previousStep()">Back to Details</button>
+                            <button class="btn btn-primary" (click)="confirmBooking()" [disabled]="isLoading">
+                                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span>
+                                {{ isLoading ? 'Confirming...' : 'Confirm & Book' }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Confirmation -->
+                    <div *ngSwitchCase="'confirmation'" class="text-center">
+                        <h2 class="text-success mb-3"><i class="bi bi-check-circle-fill"></i> Booking Confirmed!</h2>
+                        <p>Your ticket has been successfully booked. Your booking ID is <strong>{{
+                                confirmedBooking?.bookingId }}</strong>.</p>
+                        <div class="my-4">
+                            <a routerLink="/trains" class="btn btn-primary mx-2">Book Another Ticket</a>
+                            <button class="btn btn-secondary mx-2" (click)="downloadTicket()">Download Ticket
+                                (PDF)</button>
+                        </div>
+                        <!-- More details can be displayed here -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

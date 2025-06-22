@@ -1,0 +1,260 @@
+:host {
+    display: block;
+    padding: 2rem;
+    background-color: #f4f7fa;
+    height: 100%;
+}
+
+h1 {
+    margin-bottom: 2rem;
+    font-weight: 600;
+    color: #333;
+    font-size: 2rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.stat-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-left: 5px solid transparent;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    color: var(--white);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sales {
+    border-color: #28a745;
+}
+
+.sales .card-icon {
+    background-color: #28a745;
+}
+
+.bookings {
+    border-color: #17a2b8;
+}
+
+.bookings .card-icon {
+    background-color: #17a2b8;
+}
+
+.trains {
+    border-color: #ffc107;
+}
+
+.trains .card-icon {
+    background-color: #ffc107;
+}
+
+.users {
+    border-color: #6f42c1;
+}
+
+.users .card-icon {
+    background-color: #6f42c1;
+}
+
+
+.card-content h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.card-content p {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #212529;
+}
+
+.card-content .main-stat {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.sub-stats span {
+    font-size: 0.9rem;
+    color: #6c757d;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+.dashboard-container {
+    padding: 2rem;
+    background-color: #f9fafb;
+}
+
+.dashboard-header {
+    margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.dashboard-header p {
+    font-size: 1.1rem;
+    color: #667085;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.sales-icon {
+    background-color: #22c55e;
+}
+
+.bookings-icon {
+    background-color: #3b82f6;
+}
+
+.trains-icon {
+    background-color: #8b5cf6;
+}
+
+.users-icon {
+    background-color: #f97316;
+}
+
+.passengers-icon {
+    background-color: #14b8a6;
+}
+
+.card-content h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #667085;
+}
+
+.card-content p {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #101828;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.detail-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.detail-card h4 {
+    margin: 0 0 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.75rem;
+}
+
+.detail-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.detail-card li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+}
+
+.detail-card li span {
+    color: #667085;
+}
+
+.detail-card li strong {
+    font-weight: 600;
+    color: #101828;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 1.2rem;
+    color: #667085;
+}

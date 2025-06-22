@@ -1,0 +1,108 @@
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Welcome to Our Train Booking Platform</h1>
+                <p class="lead mb-5">Your one-stop solution for finding, booking, and managing your train journeys.</p>
+                <div class="d-flex gap-3">
+                    <button class="btn btn-light btn-lg px-4" (click)="navigateToLogin()">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </button>
+                    <button class="btn btn-outline-light btn-lg px-4" (click)="navigateToRegister()">
+                        <i class="bi bi-person-plus me-2"></i>Register
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <i class="bi bi-train-front display-1 text-light opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="fw-bold">Why Choose Our Platform?</h2>
+                <p class="lead text-muted">Discover the features that make us the preferred choice for train travel</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-clock-history display-4 text-primary mb-3"></i>
+                        <h5 class="card-title fw-bold">Real-time Schedules</h5>
+                        <p class="card-text">Get accurate, up-to-date train schedules and platform information in
+                            real-time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-credit-card display-4 text-primary mb-3"></i>
+                        <h5 class="card-title fw-bold">Easy Booking</h5>
+                        <p class="card-text">Book tickets effortlessly with our intuitive interface and secure payment
+                            options.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-shield-check display-4 text-primary mb-3"></i>
+                        <h5 class="card-title fw-bold">Secure & Reliable</h5>
+                        <p class="card-text">Your data and transactions are protected with industry-standard security
+                            measures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">Ready to Start Your Journey?</h2>
+                <p class="lead mb-4">Join thousands of satisfied travelers who trust our platform for their train travel
+                    needs.</p>
+                <div class="d-flex gap-3">
+                    <button class="btn btn-primary btn-lg" (click)="navigateToRegister()">
+                        Get Started Today
+                    </button>
+                    <button class="btn btn-outline-primary btn-lg" (click)="navigateToLogin()">
+                        Already have an account?
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <i class="bi bi-geo-alt display-1 text-primary opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Train Booking Platform</h5>
+                <p class="mb-0">The best way to book your travel.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0">&copy; 2024 Train Booking Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>

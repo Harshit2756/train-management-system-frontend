@@ -1,0 +1,14 @@
+/* Add any specific styles for the booking history page here */
+.table {
+    border-collapse: separate;
+    border-spacing: 0 0.5em;
+}
+
+.table thead th {
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}

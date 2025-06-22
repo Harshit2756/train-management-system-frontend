@@ -1,0 +1,87 @@
+:host {
+    display: block;
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+}
+
+.profile-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+.profile-header {
+    background-color: #4a148c;
+    /* Admin theme purple */
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: 600;
+    margin: 0 auto 1rem;
+    border: 3px solid white;
+}
+
+.profile-header h2 {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+.role-identifier {
+    font-size: 1rem;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+.profile-details {
+    padding: 2rem;
+}
+
+.detail-item {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item label {
+    font-weight: 600;
+    color: #343a40;
+}
+
+.detail-item span {
+    color: #495057;
+}
+
+.role-badge {
+    background-color: #ede7f6;
+    color: #5e35b1;
+    padding: 0.3em 0.8em;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}

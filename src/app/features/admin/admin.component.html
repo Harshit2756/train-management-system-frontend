@@ -1,0 +1,68 @@
+<div class="dashboard-container" *ngIf="dashboardStats$ | async as stats; else loading">
+    <header class="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome back, Admin! Here's a summary of the system activity.</p>
+    </header>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="card-icon sales-icon"><i class="bi bi-currency-rupee"></i></div>
+            <div class="card-content">
+                <h3>Total Sales</h3>
+                <p>{{ stats.totalSales | currency:'INR' }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="card-icon bookings-icon"><i class="bi bi-journal-check"></i></div>
+            <div class="card-content">
+                <h3>Total Bookings</h3>
+                <p>{{ stats.totalBookings }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="card-icon trains-icon"><i class="bi bi-train-front"></i></div>
+            <div class="card-content">
+                <h3>Total Trains</h3>
+                <p>{{ stats.totalTrains }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="card-icon users-icon"><i class="bi bi-people-fill"></i></div>
+            <div class="card-content">
+                <h3>Total Users</h3>
+                <p>{{ stats.totalUsers }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="card-icon passengers-icon"><i class="bi bi-person-lines-fill"></i></div>
+            <div class="card-content">
+                <h3>Total Passengers</h3>
+                <p>{{ stats.totalPassengers }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="details-grid">
+        <div class="detail-card">
+            <h4>Booking Details</h4>
+            <ul>
+                <li><span>Confirmed:</span> <strong>{{ stats.confirmedBookings }}</strong></li>
+                <li><span>Cancelled:</span> <strong>{{ stats.cancelledBookings }}</strong></li>
+            </ul>
+        </div>
+        <div class="detail-card">
+            <h4>Train Details</h4>
+            <ul>
+                <li><span>Active:</span> <strong>{{ stats.activeTrains }}</strong></li>
+                <li><span>Inactive:</span> <strong>{{ stats.inactiveTrains }}</strong></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="loading-spinner">
+        <p>Loading dashboard data...</p>
+    </div>
+</ng-template>
+

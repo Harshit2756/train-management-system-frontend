@@ -1,0 +1,77 @@
+<div class="container">
+    <div *ngIf="notification$ | async as notification" class="notification" [ngClass]="{
+            'notification-success': notification.type === 'success',
+            'notification-error': notification.type === 'error'
+        }">
+        {{ notification.message }}
+    </div>
+
+    <header class="page-header">
+        <h1>Train Management</h1>
+        <a routerLink="/admin/trains/new" class="add-train-btn">
+            <i class="bi bi-plus-circle-fill"></i>
+            <span>Add New Train</span>
+        </a>
+    </header>
+
+    <div class="filter-controls">
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Search by name, source, destination..." [formControl]="searchTerm">
+        </div>
+        <div class="status-filter">
+            <label for="status">Status:</label>
+            <select id="status" [formControl]="statusFilter">
+                <option value="ALL">All</option>
+                <option value="ACTIVE">Active</option>
+                <option value="INACTIVE">Inactive</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="train-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Train Name</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Schedule</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let train of filteredTrains$ | async">
+                    <td>{{ train.trainId }}</td>
+                    <td>{{ train.trainName }}</td>
+                    <td>{{ train.source }}</td>
+                    <td>{{ train.destination }}</td>
+                    <td>{{ train.scheduleDays.join(', ') }}</td>
+                    <td>
+                        <span class="status-badge"
+                            [ngClass]="train.status === 'ACTIVE' ? 'status-active' : 'status-inactive'">
+                            {{ train.status }}
+                        </span>
+                    </td>
+                    <td class="action-buttons">
+                        <a [routerLink]="['/admin/trains/edit', train.trainId]" class="action-btn edit-btn"
+                            title="Edit Train">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <button class="action-btn status-btn"
+                            [ngClass]="train.status === 'ACTIVE' ? 'status-btn-active' : 'status-btn-inactive'"
+                            (click)="toggleStatus(train)"
+                            [title]="train.status === 'ACTIVE' ? 'Set Inactive' : 'Set Active'">
+                            <i class="bi bi-power"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="(filteredTrains$ | async)?.length === 0">
+                    <td colspan="7" class="no-results">No trains found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

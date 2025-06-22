@@ -1,0 +1,81 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Search Trains</h4>
+            <form [formGroup]="searchForm" (ngSubmit)="searchTrains()">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label for="source" class="form-label">From</label>
+                        <select id="source" class="form-select" formControlName="source">
+                            <option *ngFor="let station of sources$ | async" [value]="station">{{ station }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="destination" class="form-label">To</label>
+                        <select id="destination" class="form-select" formControlName="destination">
+                            <option *ngFor="let station of destinations$ | async" [value]="station">{{ station }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="journeyDate" class="form-label">Date</label>
+                        <input type="date" id="journeyDate" class="form-control" formControlName="journeyDate"
+                            [min]="minDate">
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <ng-container *ngIf="trains$ | async as trains; else noResults">
+            <div *ngIf="trains.length > 0; else noResults">
+                <div class="card mb-3" *ngFor="let train of trains">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">{{ train.trainName }} </h5>
+                            <div class="text-center">
+                                <p class="mb-0 fw-bold">{{ train.departureTime | slice:0:5 }} - {{ train.arrivalTime |
+                                    slice:0:5 }}</p>
+                                <p class="mb-0 small">{{ train.source }} to {{ train.destination }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Class Type</th>
+                                    <th>Price</th>
+                                    <th>Availability</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let fare of train.fareTypes">
+                                    <td>{{ fare.classType }}</td>
+                                    <td>{{ fare.price | currency:'INR' }}</td>
+                                    <td>{{ fare.seatsAvailable > 0 ? 'Available' : 'Not Available' }}</td>
+                                    <td class="text-end">
+                                        <button class="btn btn-primary btn-sm" (click)="bookTrain(train, fare)"
+                                            [disabled]="fare.seatsAvailable === 0">
+                                            Select
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #noResults>
+            <div class="text-center p-5 card">
+                <p>No trains found for the selected route and date.</p>
+            </div>
+        </ng-template>
+    </div>
+</div>
