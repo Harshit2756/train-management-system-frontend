@@ -15,7 +15,11 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
 import { BookingService } from '../../core/services/booking.service';
 import { Booking } from '../../shared/models/booking.model';
-import { FareType, Train } from '../../shared/models/train.model';
+import {
+  FareType,
+  Train,
+  computeArrivalTime,
+} from '../../shared/models/train.model';
 
 @Component({
   selector: 'app-booking',
@@ -33,6 +37,7 @@ export class BookingComponent implements OnInit {
   confirmedBooking: Booking | null = null;
   isLoading = false;
   errorMessage: string | null = null;
+  computeArrivalTime = computeArrivalTime;
 
   constructor(
     private fb: FormBuilder,
@@ -140,7 +145,11 @@ export class BookingComponent implements OnInit {
       source: this.train.source,
       destination: this.train.destination,
       departureTime: this.train.departureTime,
-      arrivalTime: this.train.arrivalTime,
+      arrivalTime: computeArrivalTime(
+        this.train.departureTime,
+        this.train.journeyHours,
+        this.train.journeyMinutes
+      ),
       classType: this.fare.classType,
       price: this.fare.price,
       bookingDate: new Date().toISOString(),

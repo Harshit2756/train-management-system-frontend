@@ -1,11 +1,15 @@
 <div class="form-container">
-    <h2>Add New Train</h2>
+    <h2> Add New Train
+    </h2>
     <form [formGroup]="trainForm" (ngSubmit)="onSubmit()">
 
+        <!-- Section: Train Details -->
+        <h3 class="section-header"> Train Details</h3>
         <div class="form-row">
             <div class="form-group">
-                <label for="trainName">Train Name</label>
+                <label for="trainName">Train Name <span class="required">*</span></label>
                 <input id="trainName" type="text" formControlName="trainName" placeholder="e.g., Express One">
+                <small class="helper-text">Enter a unique train name.</small>
                 <div *ngIf="trainForm.get('trainName')?.invalid && trainForm.get('trainName')?.touched"
                     class="error-message">
                     Train name is required.
@@ -15,15 +19,17 @@
 
         <div class="form-row">
             <div class="form-group">
-                <label for="source">Source</label>
+                <label for="source">Source <span class="required">*</span></label>
                 <input id="source" type="text" formControlName="source" placeholder="e.g., Mumbai">
+                <small class="helper-text">Starting station of the train.</small>
                 <div *ngIf="trainForm.get('source')?.invalid && trainForm.get('source')?.touched" class="error-message">
                     Source is required.
                 </div>
             </div>
             <div class="form-group">
-                <label for="destination">Destination</label>
+                <label for="destination">Destination <span class="required">*</span></label>
                 <input id="destination" type="text" formControlName="destination" placeholder="e.g., Delhi">
+                <small class="helper-text">Ending station of the train.</small>
                 <div *ngIf="trainForm.get('destination')?.invalid && trainForm.get('destination')?.touched"
                     class="error-message">
                     Destination is required.
@@ -33,41 +39,84 @@
 
         <div class="form-row">
             <div class="form-group">
-                <label for="departureTime">Departure Time</label>
-                <input id="departureTime" type="time" formControlName="departureTime">
+                <label for="departureTime">Departure Time <span class="required">*</span></label>
+                <div class="input-icon">
+                    <input id="departureTime" type="time" formControlName="departureTime">
+                </div>
                 <div *ngIf="trainForm.get('departureTime')?.invalid && trainForm.get('departureTime')?.touched"
                     class="error-message">
                     Departure time is required.
                 </div>
             </div>
+        </div>
+
+        <div class="form-row">
             <div class="form-group">
-                <label for="arrivalTime">Arrival Time</label>
-                <input id="arrivalTime" type="time" formControlName="arrivalTime">
-                <div *ngIf="trainForm.get('arrivalTime')?.invalid && trainForm.get('arrivalTime')?.touched"
-                    class="error-message">
-                    Arrival time is required.
+                <label for="journeyHours">Journey Hours <span class="required">*</span></label>
+                <div class="input-icon">
+                    <input id="journeyHours" type="number" formControlName="journeyHours" min="0" max="168"
+                        placeholder="e.g., 12">
                 </div>
-                <div *ngIf="trainForm.errors?.['arrivalTimeBeforeDeparture'] && (trainForm.get('arrivalTime')?.touched || trainForm.get('departureTime')?.touched)"
+                <small class="helper-text">Hours of journey (0-168)</small>
+                <div *ngIf="trainForm.get('journeyHours')?.invalid && trainForm.get('journeyHours')?.touched"
                     class="error-message">
-                    Arrival time must be after departure time.
+                    Journey hours must be between 0 and 168.
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="journeyMinutes">Journey Minutes <span class="required">*</span></label>
+                <div class="input-icon">
+                    <input id="journeyMinutes" type="number" formControlName="journeyMinutes" min="0" max="59"
+                        placeholder="e.g., 30">
+                </div>
+                <small class="helper-text">Minutes of journey (0-59)</small>
+                <div *ngIf="trainForm.get('journeyMinutes')?.invalid && trainForm.get('journeyMinutes')?.touched"
+                    class="error-message">
+                    Journey minutes must be between 0 and 59.
+                </div>
+            </div>
+        </div>
+
+        <!-- Journey Duration Validation -->
+        <div class="form-row"
+            *ngIf="trainForm.errors?.['minimumJourneyDuration'] && trainForm.get('journeyHours')?.touched && trainForm.get('journeyMinutes')?.touched">
+            <div class="error-message journey-duration-error">
+                Journey duration must be at least 1 hour (60 minutes).
+            </div>
+        </div>
+
+        <!-- Computed Arrival Time Display -->
+        <div class="form-row" *ngIf="computedArrivalTime && !trainForm.errors?.['minimumJourneyDuration']">
+            <div class="info-display">
+                <div class="info-item">
+                    <label>Computed Arrival Time:</label>
+                    <span class="computed-time">{{ computedArrivalTime }}</span>
+                    <span *ngIf="arrivalDayOffset > 0" class="day-offset">
+                        ({{ arrivalDayOffset === 1 ? 'Next day' : arrivalDayOffset + ' days later' }})
+                    </span>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="status">Status</label>
+            <label for="status">Status <span class="required">*</span></label>
             <select id="status" formControlName="status">
                 <option *ngFor="let status of trainStatus" [value]="status">{{ status }}</option>
             </select>
         </div>
 
+        <!-- Section: Schedule Days -->
+        <h3 class="section-header"> Schedule Days</h3>
         <div class="form-group">
-            <label>Schedule Days</label>
+            <label>Choose days the train runs <span class="required">*</span></label>
             <div class="checkbox-group">
                 <div *ngFor="let day of daysOfWeek" class="checkbox-item">
                     <input type="checkbox" [value]="day" (change)="onCheckboxChange($event)">
                     <label>{{ day }}</label>
                 </div>
+            </div>
+            <div class="selected-days">
+                <span *ngFor="let day of trainForm.get('scheduleDays')?.value" class="chip">{{ day }}</span>
             </div>
             <div *ngIf="trainForm.get('scheduleDays')?.invalid && trainForm.get('scheduleDays')?.touched"
                 class="error-message">
@@ -75,43 +124,66 @@
             </div>
         </div>
 
+        <!-- Section: Fare Types -->
+        <h3 class="section-header"> Fare Types</h3>
         <div formArrayName="fareTypes">
-            <h4>Fare Types</h4>
             <div *ngFor="let fareGroup of fareTypes.controls; let i=index" [formGroupName]="i" class="fare-type-group">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Class Type</label>
+                        <label>Class Type <span class="required">*</span></label>
                         <select formControlName="classType">
                             <option *ngFor="let type of classTypes" [value]="type">{{ type }}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
-                        <input type="number" formControlName="price" placeholder="e.g., 500">
+                        <label>Price <span class="required">*</span></label>
+                        <div class="input-icon">
+                            <input type="number" formControlName="price" placeholder="e.g., 500">
+                        </div>
                         <div *ngIf="fareTypes.controls[i].get('price')?.invalid && fareTypes.controls[i].get('price')?.touched"
                             class="error-message">
                             Price must be a positive number.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Seats Available</label>
-                        <input type="number" formControlName="seatsAvailable" placeholder="e.g., 100">
+                        <label>Seats Available <span class="required">*</span></label>
+                        <div class="input-icon">
+                            <input type="number" formControlName="seatsAvailable" placeholder="e.g., 100">
+                        </div>
                         <div *ngIf="fareTypes.controls[i].get('seatsAvailable')?.invalid && fareTypes.controls[i].get('seatsAvailable')?.touched"
                             class="error-message">
                             Seats must be a positive number.
                         </div>
                     </div>
                 </div>
-                <button type="button" class="remove-btn" (click)="removeFareType(i)"
-                    *ngIf="fareTypes.length > 1">Remove</button>
+                <button type="button" class="remove-btn" (click)="removeFareType(i)" *ngIf="fareTypes.length > 1">
+                    <!-- use bootstrap icon -->
+                    <i class="bi bi-dash-circle"></i> Remove
+                </button>
             </div>
-            <button type="button" class="add-btn" (click)="addFareType()">Add Fare Type</button>
+            <button type="button" class="add-btn" (click)="addFareType()">
+                <!-- use bootstrap icon -->
+                <i class="bi bi-plus-circle"></i> Add Fare Type
+            </button>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="submit-btn" [disabled]="trainForm.invalid">Add Train</button>
-            <button type="button" class="cancel-btn" routerLink="/admin/trains">Cancel</button>
+            <button type="submit" class="submit-btn" [disabled]="trainForm.invalid || isLoading">
+                <!-- use bootstrap icon -->
+                <i class="bi bi-plus-circle"></i>
+                Add Train
+            </button>
+            <button type="button" class="cancel-btn" routerLink="/admin/trains">
+                <!-- use bootstrap icon -->
+                <i class="bi bi-x-circle"></i>
+                Cancel
+            </button>
         </div>
 
+        <!-- Loading Spinner Overlay -->
+        <div class="loading-overlay" *ngIf="isLoading">
+            <div class="spinner"></div>
+            <span>Submitting...</span>
+        </div>
     </form>
 </div>

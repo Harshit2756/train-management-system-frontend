@@ -122,7 +122,8 @@
                                         <p>{{ train.source }} to {{ train.destination }} on {{ journeyDate | date:
                                             'fullDate' }}</p>
                                         <p>Departure: {{ train.departureTime | slice:0:5 }}, Arrival: {{
-                                            train.arrivalTime | slice:0:5 }}</p>
+                                            computeArrivalTime(train.departureTime, train.journeyHours,
+                                            train.journeyMinutes) }}</p>
                                         <p>Class: {{ fare.classType }}</p>
                                     </div>
                                 </div>

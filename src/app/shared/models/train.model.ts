@@ -32,10 +32,13 @@ export interface Train {
   source: string;
   destination: string;
   departureTime: string;
-  arrivalTime: string;
+  journeyHours: number;
+  journeyMinutes: number;
   status: string;
   scheduleDays: string[];
   fareTypes: FareType[];
+  computedArrivalTime?: string;
+  arrivalDayOffset?: number;
 }
 
 export interface TrainRequest {
@@ -43,7 +46,8 @@ export interface TrainRequest {
   source: string;
   destination: string;
   departureTime: string;
-  arrivalTime: string;
+  journeyHours: number;
+  journeyMinutes: number;
   status: 'ACTIVE' | 'INACTIVE' | 'CANCELLED';
   scheduleDays: string[];
   fareTypes: {
@@ -51,4 +55,31 @@ export interface TrainRequest {
     price: number;
     seatsAvailable: number;
   }[];
+}
+
+// Utility functions for computing arrival information
+export function computeArrivalTime(
+  departureTime: string,
+  journeyHours: number,
+  journeyMinutes: number
+): string {
+  const [hours, minutes] = departureTime.split(':').map(Number);
+  const totalMinutes =
+    hours * 60 + minutes + journeyHours * 60 + journeyMinutes;
+  const arrivalHours = Math.floor(totalMinutes / 60) % 24;
+  const arrivalMinutes = totalMinutes % 60;
+  return `${arrivalHours.toString().padStart(2, '0')}:${arrivalMinutes
+    .toString()
+    .padStart(2, '0')}`;
+}
+
+export function computeArrivalDayOffset(
+  departureTime: string,
+  journeyHours: number,
+  journeyMinutes: number
+): number {
+  const [hours, minutes] = departureTime.split(':').map(Number);
+  const totalMinutes =
+    hours * 60 + minutes + journeyHours * 60 + journeyMinutes;
+  return Math.floor(totalMinutes / (24 * 60));
 }

@@ -14,8 +14,9 @@ import {
   ClassType,
   DaysOfWeek,
   TrainRequest,
+  computeArrivalDayOffset,
+  computeArrivalTime,
 } from '../../../shared/models/train.model';
-import { timeValidator } from '../../../shared/validators/time.validator';
 
 @Component({
   selector: 'app-train-form',
@@ -29,6 +30,9 @@ export class TrainFormComponent implements OnInit {
   daysOfWeek = Object.values(DaysOfWeek);
   classTypes = Object.values(ClassType);
   trainStatus = ['ACTIVE', 'INACTIVE'];
+  isLoading = false;
+  computedArrivalTime = '';
+  arrivalDayOffset = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -63,7 +67,14 @@ export class TrainFormComponent implements OnInit {
           ],
         ],
         departureTime: ['', Validators.required],
-        arrivalTime: ['', Validators.required],
+        journeyHours: [
+          0,
+          [Validators.required, Validators.min(0), Validators.max(168)],
+        ],
+        journeyMinutes: [
+          0,
+          [Validators.required, Validators.min(0), Validators.max(59)],
+        ],
         status: ['ACTIVE', Validators.required],
         scheduleDays: this.fb.array(
           [],
@@ -71,12 +82,18 @@ export class TrainFormComponent implements OnInit {
         ),
         fareTypes: this.fb.array([], Validators.required),
       },
-      { validators: timeValidator() }
+      { validators: this.minimumJourneyDurationValidator }
     );
+
+    // Watch for changes to compute arrival time
+    this.trainForm.valueChanges.subscribe(() => {
+      this.updateComputedArrivalTime();
+    });
   }
 
   ngOnInit(): void {
     this.addFareType();
+    this.updateComputedArrivalTime();
   }
 
   get fareTypes(): FormArray {
@@ -123,20 +140,18 @@ export class TrainFormComponent implements OnInit {
       this.trainForm.markAllAsTouched();
       return;
     }
-
+    this.isLoading = true;
     const formValue = this.trainForm.value;
-
     const newTrain: TrainRequest = {
       ...formValue,
       departureTime: this.formatTime(formValue.departureTime),
-      arrivalTime: this.formatTime(formValue.arrivalTime),
     };
-
     this.trainService.createTrain(newTrain).subscribe({
       next: (createdTrain) => {
         this.notificationService.show(
           `Train '${createdTrain.trainName}' created successfully!`
         );
+        this.isLoading = false;
         this.router.navigate(['/admin/trains']);
       },
       error: (err) => {
@@ -144,8 +159,71 @@ export class TrainFormComponent implements OnInit {
           `Error: ${err.error?.message || 'Could not create train.'}`,
           'error'
         );
+        this.isLoading = false;
         console.error('Error creating train:', err);
       },
     });
+  }
+
+  updateComputedArrivalTime(): void {
+    const formValue = this.trainForm.value;
+
+    // Reset computed values first
+    this.computedArrivalTime = '';
+    this.arrivalDayOffset = 0;
+
+    // Only compute if all required fields are filled and valid
+    if (
+      formValue.departureTime &&
+      formValue.journeyHours !== null &&
+      formValue.journeyHours !== undefined &&
+      formValue.journeyMinutes !== null &&
+      formValue.journeyMinutes !== undefined &&
+      !this.trainForm.errors?.['minimumJourneyDuration']
+    ) {
+      this.computedArrivalTime = computeArrivalTime(
+        formValue.departureTime,
+        formValue.journeyHours,
+        formValue.journeyMinutes
+      );
+      this.arrivalDayOffset = computeArrivalDayOffset(
+        formValue.departureTime,
+        formValue.journeyHours,
+        formValue.journeyMinutes
+      );
+    }
+  }
+
+  private minimumJourneyDurationValidator(
+    form: FormGroup
+  ): { [key: string]: boolean } | null {
+    const journeyHours = form.get('journeyHours')?.value;
+    const journeyMinutes = form.get('journeyMinutes')?.value;
+
+    // Don't validate if either field is empty/null/undefined
+    if (
+      journeyHours === null ||
+      journeyHours === undefined ||
+      journeyMinutes === null ||
+      journeyMinutes === undefined
+    ) {
+      return null;
+    }
+
+    // Convert to numbers if they're strings
+    const hours = Number(journeyHours);
+    const minutes = Number(journeyMinutes);
+
+    // Check if conversion failed (NaN)
+    if (isNaN(hours) || isNaN(minutes)) {
+      return null;
+    }
+
+    const totalMinutes = hours * 60 + minutes;
+    if (totalMinutes < 60) {
+      return { minimumJourneyDuration: true };
+    }
+
+    return null;
   }
 }

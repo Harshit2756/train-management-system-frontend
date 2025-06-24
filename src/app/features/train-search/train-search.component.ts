@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { TrainService } from '../../core/services/train.service';
-import { Train } from '../../shared/models/train.model';
+import { Train, computeArrivalTime } from '../../shared/models/train.model';
 
 @Component({
   selector: 'app-train-search',
@@ -20,6 +20,7 @@ export class TrainSearchComponent implements OnInit {
   sources$!: Observable<string[]>;
   destinations$!: Observable<string[]>;
   minDate!: string;
+  computeArrivalTime = computeArrivalTime;
 
   constructor(
     private fb: FormBuilder,

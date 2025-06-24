@@ -38,8 +38,9 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">{{ train.trainName }} </h5>
                             <div class="text-center">
-                                <p class="mb-0 fw-bold">{{ train.departureTime | slice:0:5 }} - {{ train.arrivalTime |
-                                    slice:0:5 }}</p>
+                                <p class="mb-0 fw-bold">{{ train.departureTime | slice:0:5 }} - {{
+                                    computeArrivalTime(train.departureTime, train.journeyHours, train.journeyMinutes) }}
+                                </p>
                                 <p class="mb-0 small">{{ train.source }} to {{ train.destination }}</p>
                             </div>
                         </div>
